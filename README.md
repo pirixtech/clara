@@ -1,5 +1,7 @@
 # Clara
 
+[![Dependencies](https://api.dependabot.com/badges/status?host=github&repo=pirixtech/clara)](https://app.dependabot.com/accounts/pirixtech/repos/196296923)
+
 This is a Botkit starter kit for facebook, created with the [Yeoman generator](https://github.com/howdyai/botkit/tree/master/packages/generator-botkit#readme)
 
 [Botkit Docs](https://botkit.ai/docs/v4)
