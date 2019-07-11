@@ -24,5 +24,17 @@ ngrok http 3000
 # create facebook app follow https://medium.com/@pranavbhatia_26901/building-a-facebook-bot-using-botkit-ai-on-node-js-bd6146df401a
 # verify webhook
 for `callback url`: ngrok url (DO NOT add `/facebook/receive` at the end! it doesn\'t work)
-for `verify token`: put `FACEBOOK_VERIFY_TOKEN` from environment file
+for `verify token`: put `FACEBOOK_VERIFY_TOKEN` from `.env` file
+```
+
+for online app hosting in Heroku
+
+```bash
+heroku create <app_name>
+heroku git:remote --app <app_name>
+git push heroku master
+# create facebook app follow https://medium.com/@pranavbhatia_26901/building-a-facebook-bot-using-botkit-ai-on-node-js-bd6146df401a
+# verify webhook
+for `callback url`: heroku url (DO NOT add `/facebook/receive` at the end! it doesn\'t work)
+for `verify token`: put `FACEBOOK_VERIFY_TOKEN` from `.env` file
 ```
