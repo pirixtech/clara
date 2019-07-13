@@ -6,7 +6,7 @@ module.exports = function(controller) {
     ['Who are you', 'Tell me about yourself'],
     'message',
     async (bot, message) => {
-      let incarnation = '0.1.0';
+      let incarnation = '0.1.1';
       // let incarnation = version();
       await bot.reply(
         message,
@@ -23,4 +23,30 @@ module.exports = function(controller) {
       return fs.readFileSync('..git/' + rev.substring(5)).toString();
     }
   }
+
+  controller.hears(
+    [/^help$/],
+    'direct_message,direct_mention,message',
+    async function(bot, message) {
+      let restaurants = 'restarant experience';
+      let shopping = 'shopping experience';
+      let transportations = 'go to where you want to go';
+      let locations = 'places of interest experience';
+      let secrets = 'unique secret experience, unlock me';
+      let text =
+        'Here are my skills:' +
+        '\n' +
+        restaurants +
+        '\n' +
+        shopping +
+        '\n' +
+        transportations +
+        '\n' +
+        locations +
+        '\n' +
+        secrets;
+
+      await bot.reply(message, text);
+    }
+  );
 };
