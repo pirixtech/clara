@@ -31,6 +31,7 @@ const adapter = new FacebookAdapter({
   verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
   access_token: process.env.FACEBOOK_ACCESS_TOKEN,
   app_secret: process.env.FACEBOOK_APP_SECRET
+  // require_delivery: true
 });
 
 // emit events based on the type of facebook event being received
