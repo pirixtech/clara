@@ -11,9 +11,10 @@ module.exports = function(controller) {
   });
 
   controller.hears(
-    ['How to get to Bay street'],
+    [new RegExp(/How to get to (.*)?/i)],
     'message',
     async (bot, message) => {
+      let destination = message.matches[1].replace('?', '');
       var attachment = {
         type: 'template',
         payload: {
@@ -23,7 +24,7 @@ module.exports = function(controller) {
               title: 'Route',
               image_url:
                 'https://previews.123rf.com/images/theerakit/theerakit1809/theerakit180900047/109504430-location-pin-icon-on-white-background-location-pin-point-flat-style-yellow-location-pin-symbol-yello.jpg',
-              subtitle: 'How to sling shot there',
+              subtitle: `How to sling shot to ${destination}`,
               buttons: [
                 {
                   type: 'postback',
@@ -50,7 +51,7 @@ module.exports = function(controller) {
     }
   );
 
-  controller.on('message_received', (bot, message) => {
+  controller.on('message', (bot, message) => {
     if (message.attachments && message.attachments[0].type === 'location') {
       let latitude = message.attachments[0].payload.coordinates.lat;
       let longitude = message.attachments[0].payload.coordinates.long;
@@ -66,10 +67,6 @@ module.exports = function(controller) {
   controller.on('facebook_postback', async (bot, message) => {
     let googlMapDirectionUrl =
       'https://www.google.com/maps/place/Bay+St,+Toronto,+ON/@43.6572984,-79.3865532,17z/data=!3m1!4b1!4m5!3m4!1s0x882b34ca5b2882df:0x102e24ef596a0a4a!8m2!3d43.6572984!4d-79.3843645';
-    await bot.reply(
-      message,
-      'I heard you posting back a post_back about ${message.text}, link' +
-        googlMapDirectionUrl
-    );
+    await bot.reply(message, `To get there: ${googlMapDirectionUrl}`);
   });
 };
