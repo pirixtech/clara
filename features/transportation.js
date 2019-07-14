@@ -1,6 +1,7 @@
 const { BotkitConversation } = require('botkit');
 
 var destination = 'Toronto, Ontario, Canada';
+var BASE_GOOGLE_MAP_URL = 'https://www.google.com/maps/search/?api=1';
 
 module.exports = function(controller) {
   /* transportations */
@@ -10,6 +11,21 @@ module.exports = function(controller) {
       message,
       'Feature is under development, coming up soon ...'
     );
+  });
+
+  /* Get user current location information */
+  // TODO: figure out permission issue and get user consent to share location
+  controller.on('message,direct_message', (bot, message) => {
+    if (message.attachments && message.attachments[0].type === 'location') {
+      let latitude = message.attachments[0].payload.coordinates.lat;
+      let longitude = message.attachments[0].payload.coordinates.long;
+      bot.reply(message, `You are at ${latitude} / ${longitude} !`);
+    } else {
+      bot.reply(
+        message,
+        `No location information found. Use default location ${destination}`
+      );
+    }
   });
 
   controller.hears(
@@ -53,25 +69,36 @@ module.exports = function(controller) {
     }
   );
 
-  controller.on('message', (bot, message) => {
-    if (message.attachments && message.attachments[0].type === 'location') {
-      let latitude = message.attachments[0].payload.coordinates.lat;
-      let longitude = message.attachments[0].payload.coordinates.long;
-      bot.reply(message, `You are at ${latitude} / ${longitude} !`);
-    } else {
-      bot.reply(
-        message,
-        `No location information found. Use default location ${destination}`
-      );
-    }
-  });
-
+  /* Get directions via Google Map */
   controller.on('facebook_postback', async (bot, message) => {
-    let query = encodeURIComponent(destination);
-    let googlMapDirectionUrl = `https://www.google.com/maps/search/?api=1&query=${query}`;
+    let origin = 'Toronto, ON, Canada';
+    let encodedOrigin = encodeURIComponent(origin);
+    let encodedDestination = encodeURIComponent(destination);
+
+    console.log(`Message structure: ${Object.keys(message)}`);
+    console.log(`Postback structure: ${Object.keys(message.postback)}`);
+    let travelMode = encodeURIComponent(message.postback.payload);
+
+    // let travelMode = 'walking';
+    let googlMapDirectionUrl = `${BASE_GOOGLE_MAP_URL}&origin=${encodedOrigin}&destination=${encodedDestination}&travelmode=${travelMode}`;
     await bot.reply(
       message,
-      `To get to ${destination}: ${googlMapDirectionUrl}`
+      `To get to ${destination}, follow the direction: ${googlMapDirectionUrl}`
     );
   });
+
+  /* Get destination via Google Map */
+  controller.hears(
+    [new RegExp(/Where is (.*)?/i)],
+    'message',
+    async (bot, message) => {
+      destination = message.matches[1].replace('?', '');
+      let query = encodeURIComponent(destination);
+      let googlMapDirectionUrl = `${BASE_GOOGLE_MAP_URL}&query=${query}`;
+      await bot.reply(
+        message,
+        `Location ${destination}: ${googlMapDirectionUrl}`
+      );
+    }
+  );
 };
