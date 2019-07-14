@@ -20,14 +20,25 @@ module.exports = function(controller) {
           template_type: 'generic',
           elements: [
             {
-              title: 'Chocolate Cookie',
-              image_url: 'http://cookies.com/cookie.png',
-              subtitle: 'A delicious chocolate cookie',
+              title: 'Route',
+              image_url:
+                'https://previews.123rf.com/images/theerakit/theerakit1809/theerakit180900047/109504430-location-pin-icon-on-white-background-location-pin-point-flat-style-yellow-location-pin-symbol-yello.jpg',
+              subtitle: 'How to sling shot there',
               buttons: [
                 {
                   type: 'postback',
-                  title: 'Eat Cookie',
-                  payload: 'chocolate'
+                  title: 'Public Transit',
+                  payload: 'public transit'
+                },
+                {
+                  type: 'postback',
+                  title: 'Walk',
+                  payload: 'walk'
+                },
+                {
+                  type: 'postback',
+                  title: 'Rental',
+                  payload: 'rental'
                 }
               ]
             }
