@@ -6,7 +6,7 @@ module.exports = function(controller) {
     ['Who are you', 'Tell me about yourself'],
     'message',
     async (bot, message) => {
-      let incarnation = '0.1.3';
+      let incarnation = '0.1.4';
       // let incarnation = version();
       await bot.reply(
         message,
@@ -25,7 +25,7 @@ module.exports = function(controller) {
   }
 
   controller.hears(
-    [/^help$/],
+    [/^Help$/],
     'direct_message,direct_mention,message',
     async function(bot, message) {
       let restaurants = 'restarant experience';

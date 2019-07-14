@@ -49,4 +49,27 @@ module.exports = function(controller) {
       await bot.reply(message, { attachment: attachment });
     }
   );
+
+  controller.on('message_received', (bot, message) => {
+    if (message.attachments && message.attachments[0].type === 'location') {
+      let latitude = message.attachments[0].payload.coordinates.lat;
+      let longitude = message.attachments[0].payload.coordinates.long;
+      bot.reply(message, 'You are at ${latitude} / ${longitude} !');
+    } else {
+      bot.reply(
+        message,
+        'No location information found. Use default location Toronto, ON, Canada'
+      );
+    }
+  });
+
+  controller.on('facebook_postback', async (bot, message) => {
+    let googlMapDirectionUrl =
+      'https://www.google.com/maps/place/Bay+St,+Toronto,+ON/@43.6572984,-79.3865532,17z/data=!3m1!4b1!4m5!3m4!1s0x882b34ca5b2882df:0x102e24ef596a0a4a!8m2!3d43.6572984!4d-79.3843645';
+    await bot.reply(
+      message,
+      'I heard you posting back a post_back about ${message.text}, link' +
+        googlMapDirectionUrl
+    );
+  });
 };
