@@ -5,7 +5,7 @@
   "main": "bot.js",
   "license": "MIT",
   "scripts": {
-    "start": "node bot.js",
+    "start": "nodemon bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -14,7 +14,8 @@
     "botbuilder-storage-mongodb": "^0.9.5",
     "botkit": "^4.0.1",
     "botkit-plugin-cms": "^1.0.0",
-    "dotenv": "^8.0.0"
+    "dotenv": "^8.0.0",
+    "nodemon": "^1.19.1"
   },
   "engines": {
     "node": "12.4.0"

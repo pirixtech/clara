@@ -39,8 +39,8 @@ adapter.use(new FacebookEventTypeMiddleware());
 
 const controller = new Botkit({
   debug: true,
-  //   webhook_uri: "/api/messages",
-  webhook_uri: '/',
+  webhook_uri: '/api/messages',
+  // webhook_uri: '/',
 
   adapter: adapter,
 
