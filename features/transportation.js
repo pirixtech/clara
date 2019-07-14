@@ -1,7 +1,8 @@
 const { BotkitConversation } = require('botkit');
 
 var destination = 'Toronto, Ontario, Canada';
-var BASE_GOOGLE_MAP_URL = 'https://www.google.com/maps/search/?api=1';
+var BASE_GOOGLE_SEARCH_URL = 'https://www.google.com/maps/search/?api=1';
+var BASE_GOOGLE_DIR_URL = 'https://www.google.com/maps/dir/?api=1';
 
 module.exports = function(controller) {
   /* transportations */
@@ -47,17 +48,17 @@ module.exports = function(controller) {
                 {
                   type: 'postback',
                   title: 'Public Transit',
-                  payload: 'public transit'
+                  payload: 'transit'
+                },
+                {
+                  type: 'postback',
+                  title: 'Drive',
+                  payload: 'driving'
                 },
                 {
                   type: 'postback',
                   title: 'Walk',
-                  payload: 'walk'
-                },
-                {
-                  type: 'postback',
-                  title: 'Rental',
-                  payload: 'rental'
+                  payload: 'walking'
                 }
               ]
             }
@@ -71,7 +72,7 @@ module.exports = function(controller) {
 
   /* Get directions via Google Map */
   controller.on('facebook_postback', async (bot, message) => {
-    let origin = 'Toronto, ON, Canada';
+    let origin = 'Toronto,ON';
     let encodedOrigin = encodeURIComponent(origin);
     let encodedDestination = encodeURIComponent(destination);
 
@@ -79,8 +80,7 @@ module.exports = function(controller) {
     console.log(`Postback structure: ${Object.keys(message.postback)}`);
     let travelMode = encodeURIComponent(message.postback.payload);
 
-    // let travelMode = 'walking';
-    let googlMapDirectionUrl = `${BASE_GOOGLE_MAP_URL}&origin=${encodedOrigin}&destination=${encodedDestination}&travelmode=${travelMode}`;
+    let googlMapDirectionUrl = `${BASE_GOOGLE_DIR_URL}&origin=${encodedOrigin}&destination=${encodedDestination}&travelmode=${travelMode}`;
     await bot.reply(
       message,
       `To get to ${destination}, follow the direction: ${googlMapDirectionUrl}`
@@ -94,7 +94,7 @@ module.exports = function(controller) {
     async (bot, message) => {
       destination = message.matches[1].replace('?', '');
       let query = encodeURIComponent(destination);
-      let googlMapDirectionUrl = `${BASE_GOOGLE_MAP_URL}&query=${query}`;
+      let googlMapDirectionUrl = `${BASE_GOOGLE_SEARCH_URL}&query=${query}`;
       await bot.reply(
         message,
         `Location ${destination}: ${googlMapDirectionUrl}`
