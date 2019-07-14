@@ -67,8 +67,8 @@ module.exports = function(controller) {
   });
 
   controller.on('facebook_postback', async (bot, message) => {
-    let googlMapDirectionUrl =
-      'https://www.google.com/maps/place/Bay+St,+Toronto,+ON/@43.6572984,-79.3865532,17z/data=!3m1!4b1!4m5!3m4!1s0x882b34ca5b2882df:0x102e24ef596a0a4a!8m2!3d43.6572984!4d-79.3843645';
+    let query = encodeURIComponent(destination);
+    let googlMapDirectionUrl = `https://www.google.com/maps/search/?api=1&query=${query}`;
     await bot.reply(
       message,
       `To get to ${destination}: ${googlMapDirectionUrl}`
