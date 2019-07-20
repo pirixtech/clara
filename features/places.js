@@ -74,9 +74,9 @@ module.exports = function(controller) {
           elements: [
             {
               title: "Toooooooooo many people, Please don't go",
-              subtitle: `How to sling shot to ${destination}`,
+              subtitle: `Might as well check it out`,
               image_url:
-                'https://d3d127vhjgkwcw.cloudfront.net/images/articles/2016_10/beautifulplaces_fb.png',
+                'https://www.narcity.com/uploads/225509_16595a5286911f0089695cc9cc12c7249c4db89a.jpg_facebook.jpg',
               buttons: [
                 {
                   title: 'View',
@@ -88,6 +88,17 @@ module.exports = function(controller) {
                     'https://earth.google.com/web/@43.6425662,-79.3870568,380.83523438a,739.24756514d,35y,0h,45t,0r/data=CksaSRJDCiUweDg4MmIzNGQ2OGJmMzNhOWI6MHgxNWVkZDhjNGRlMWM3NTgxGetB95s_0kVAIXFs4onF2FPAKghDTiBUb3dlchgCIAEoAg'
                 }
               ]
+            },
+            {
+              title: "Too many fake reviews, don't go there",
+              subtitle: `Might as well check it out`,
+              default_action: {
+                type: 'web_url',
+                url:
+                  'https://www.narcity.com/uploads/263270_4308a16e472d5527b03392819f8802fa714c620a.png_facebook.png',
+                messenger_extensions: false,
+                webview_height_ratio: 'tall'
+              }
             }
           ],
           buttons: [

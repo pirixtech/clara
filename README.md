@@ -12,6 +12,11 @@ Edit the samples, and add your own in the [features/](features/) folder.
 ## Get Started
 
 ```bash
+# get secret
+git secret reveal
+```
+
+```bash
 # install prerequsites and launch app
 npm install
 npm start
