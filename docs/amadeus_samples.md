@@ -1,0 +1,169 @@
+# Amadeus Sample REST responses
+
+## Points of Interest by Radius
+
+```bash
+{
+    "data": [
+        {
+            "type": "location",
+            "subType": "POINT_OF_INTEREST",
+            "geoCode": {
+                "latitude": 41.387573,
+                "longitude": 2.175313
+            },
+            "name": "Palau de la Música Catalana",
+            "category": "SIGHTS",
+            "tags": [
+                "sightseeing",
+                "activities",
+                "sights",
+                "landmark"
+            ]
+        },
+        {
+            "type": "location",
+            "subType": "POINT_OF_INTEREST",
+            "geoCode": {
+                "latitude": 41.39165,
+                "longitude": 2.164772
+            },
+            "name": "Casa Batlló",
+            "category": "SIGHTS",
+            "tags": [
+                "sightseeing",
+                "museum",
+                "sights",
+                "landmark"
+            ]
+        },
+        {
+            "type": "location",
+            "subType": "POINT_OF_INTEREST",
+            "geoCode": {
+                "latitude": 41.381794,
+                "longitude": 2.171936
+            },
+            "name": "La Boqueria",
+            "category": "RESTAURANT",
+            "tags": [
+                "restaurant"
+            ]
+        },
+        {
+            "type": "location",
+            "subType": "POINT_OF_INTEREST",
+            "geoCode": {
+                "latitude": 41.40359,
+                "longitude": 2.17436
+            },
+            "name": "La Sagrada Familia",
+            "category": "SIGHTS",
+            "tags": [
+                "sightseeing",
+                "church",
+                "temple",
+                "sights"
+            ]
+        },
+        {
+            "type": "location",
+            "subType": "POINT_OF_INTEREST",
+            "geoCode": {
+                "latitude": 41.38507,
+                "longitude": 2.16799
+            },
+            "name": "Teresa Carles",
+            "category": "RESTAURANT",
+            "tags": [
+                "restaurant",
+                "vegetarian"
+            ]
+        },
+        {
+            "type": "location",
+            "subType": "POINT_OF_INTEREST",
+            "geoCode": {
+                "latitude": 41.38175,
+                "longitude": 2.18342
+            },
+            "name": "Can Paixano",
+            "category": "RESTAURANT",
+            "tags": [
+                "restaurant",
+                "cheap",
+                "tapas"
+            ]
+        },
+        {
+            "type": "location",
+            "subType": "POINT_OF_INTEREST",
+            "geoCode": {
+                "latitude": 41.395214,
+                "longitude": 2.161674
+            },
+            "name": "Casa Milà",
+            "category": "SIGHTS",
+            "tags": [
+                "sightseeing",
+                "museum",
+                "sights",
+                "landmark"
+            ]
+        },
+        {
+            "type": "location",
+            "subType": "POINT_OF_INTEREST",
+            "geoCode": {
+                "latitude": 41.41368,
+                "longitude": 2.152877
+            },
+            "name": "Park Güell",
+            "category": "SIGHTS",
+            "tags": [
+                "sightseeing",
+                "museum",
+                "sights",
+                "historicplace"
+            ]
+        },
+        {
+            "type": "location",
+            "subType": "POINT_OF_INTEREST",
+            "geoCode": {
+                "latitude": 41.378918,
+                "longitude": 2.166202
+            },
+            "name": "Cera 23",
+            "category": "RESTAURANT",
+            "tags": [
+                "restaurant"
+            ]
+        },
+        {
+            "type": "location",
+            "subType": "POINT_OF_INTEREST",
+            "geoCode": {
+                "latitude": 41.3845,
+                "longitude": 2.18174
+            },
+            "name": "El Xampanyet",
+            "category": "RESTAURANT",
+            "tags": [
+                "sightseeing",
+                "restaurant",
+                "bar",
+                "nightlife",
+                "tapas"
+            ]
+        }
+    ],
+    "meta": {
+        "count": 10,
+        "links": {
+            "self": "https://test.api.amadeus.com/v1/reference-data/locations/pois?latitude=41.397158&longitude=2.160873&radius=2",
+            "next": "https://test.api.amadeus.com/v1/reference-data/locations/pois?latitude=41.397158&longitude=2.160873&radius=2&page[offset]=10&page[limit]=10"
+        }
+    }
+}
+```
