@@ -41,9 +41,9 @@ module.exports = function(controller) {
           elements: [
             {
               title: 'Route',
+              subtitle: `How to sling shot to ${destination}`,
               image_url:
                 'https://previews.123rf.com/images/theerakit/theerakit1809/theerakit180900047/109504430-location-pin-icon-on-white-background-location-pin-point-flat-style-yellow-location-pin-symbol-yello.jpg',
-              subtitle: `How to sling shot to ${destination}`,
               buttons: [
                 {
                   type: 'postback',

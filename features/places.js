@@ -59,58 +59,95 @@ function getPlaces(poiResponse) {
 */
 function lookupUserLocation() {}
 
-module.exports = function(controller) {
-  /* places */
-  controller.hears(
-    ['Where to have fun', 'Places to see'],
-    ['message'],
-    async (bot, message) => {
-      // TODO: Dynamically adjust attachment content
-      let attachment = {
-        type: 'template',
-        payload: {
-          template_type: 'list',
-          top_element_style: 'compact',
+function fbPlacesTempl(sights, restaurants, experience) {
+  // TODO: use a factory to produce the templates
+  let viewImageUrl =
+    'https://www.toronto.ca/wp-content/uploads/2017/07/9163-invest-in-toronto-995x330.png';
+  let resaurantUrl =
+    'https://www.blogto.com/eat_drink/2018/09/essential-restaurants-toronto/';
+  let sightsUrl =
+    'https://www.blogto.com/city/2015/08/the_10_most_breathtaking_views_of_toronto/';
+  let experiencesUrl =
+    'https://www.blogto.com/city/2016/09/17_super_touristy_things_you_must_do_in_toronto/';
+  let fallbackUrl = 'https://www.google.com';
+  return {
+    type: 'template',
+    payload: {
+      template_type: 'generic',
+      elements: [
+        {
+          template_type: 'generic',
           elements: [
             {
-              title: "Toooooooooo many people, Please don't go",
-              subtitle: `Might as well check it out`,
-              image_url:
-                'https://www.narcity.com/uploads/225509_16595a5286911f0089695cc9cc12c7249c4db89a.jpg_facebook.jpg',
+              title: 'Sights',
+              subtitle: `Toooooooooo many people, Please don't go`,
+              image_url: viewImageUrl,
               buttons: [
                 {
                   title: 'View',
                   type: 'web_url',
-                  url: 'https://www.seetorontonow.com/listings/cn-tower/',
+                  url: sightsUrl,
                   messenger_extensions: true,
-                  webview_height_ratio: 'tall',
-                  fallback_url:
-                    'https://earth.google.com/web/@43.6425662,-79.3870568,380.83523438a,739.24756514d,35y,0h,45t,0r/data=CksaSRJDCiUweDg4MmIzNGQ2OGJmMzNhOWI6MHgxNWVkZDhjNGRlMWM3NTgxGetB95s_0kVAIXFs4onF2FPAKghDTiBUb3dlchgCIAEoAg'
+                  webview_height_ratio: 'full',
+                  fallback_url: fallbackUrl
                 }
               ]
             },
             {
-              title: "Too many fake reviews, don't go there",
-              subtitle: `Might as well check it out`,
-              default_action: {
-                type: 'web_url',
-                url:
-                  'https://www.narcity.com/uploads/263270_4308a16e472d5527b03392819f8802fa714c620a.png_facebook.png',
-                messenger_extensions: false,
-                webview_height_ratio: 'tall'
-              }
-            }
-          ],
-          buttons: [
+              title: 'Restaurants',
+              subtitle: `Toooooooooo many people, Please don't go`,
+              image_url: viewImageUrl,
+              buttons: [
+                {
+                  title: 'View',
+                  type: 'web_url',
+                  url: resaurantUrl,
+                  messenger_extensions: true,
+                  webview_height_ratio: 'full',
+                  fallback_url: fallbackUrl
+                }
+              ]
+            },
             {
-              title: 'View More',
-              type: 'postback',
-              payload: 'payload'
+              title: 'Experiences',
+              subtitle: `Toooooooooo many people, Please don't go`,
+              image_url: viewImageUrl,
+              buttons: [
+                {
+                  title: 'View',
+                  type: 'web_url',
+                  url: experiencesUrl,
+                  messenger_extensions: true,
+                  webview_height_ratio: 'full',
+                  fallback_url: fallbackUrl
+                }
+              ]
             }
           ]
+        },
+        {
+          title: "Too many fake reviews, don't go there",
+          subtitle: `Might as well check it out`,
+          default_action: {
+            type: 'web_url',
+            url: '',
+            messenger_extensions: false,
+            webview_height_ratio: 'tall'
+          }
         }
-      };
+      ]
+    }
+  };
+}
 
+module.exports = function(controller) {
+  /* places */
+  controller.hears(
+    [new RegExp(/Where to have fun(.*)/i), new RegExp(/Places to see(.*)/i)],
+    ['message'],
+    async (bot, message) => {
+      // TODO: Dynamically adjust attachment content
+      let attachment = fbPlacesTempl();
       await bot.reply(message, { attachment: attachment });
     }
   );
