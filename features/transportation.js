@@ -5,6 +5,23 @@ var BASE_GOOGLE_SEARCH_URL = 'https://www.google.com/maps/search/?api=1';
 var BASE_GOOGLE_DIR_URL = 'https://www.google.com/maps/dir/?api=1';
 
 module.exports = function(controller) {
+  const MY_DIALOG_ID = 'transportation_dialog';
+  let convo = new BotkitConversation(MY_DIALOG_ID, controller);
+
+  // send a greeting
+  convo.say('Hola!');
+
+  convo.ask(
+    'Where do you want to go?',
+    async (response, convo, bot) => {
+      console.log(`you said you are at ${response}`);
+      // do something
+    },
+    'location'
+  );
+
+  controller.addDialog(convo);
+
   /* transportations */
   // TODO: integrate with Google Map to determine best route and provide fixed option of transportation
   controller.hears(['How to get there'], ['message'], async (bot, message) => {
