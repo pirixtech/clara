@@ -13,7 +13,7 @@
     "botbuilder-adapter-facebook": "^1.0.4",
     "botbuilder-storage-mongodb": "^0.9.5",
     "botkit": "^4.5.0",
-    "botkit-plugin-cms": "^1.0.0",
+    "botkit-plugin-cms": "^1.0.2",
     "dotenv": "^8.0.0",
     "nodemon": "^1.19.1"
   },
