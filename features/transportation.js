@@ -5,22 +5,33 @@ var BASE_GOOGLE_SEARCH_URL = 'https://www.google.com/maps/search/?api=1';
 var BASE_GOOGLE_DIR_URL = 'https://www.google.com/maps/dir/?api=1';
 
 module.exports = function(controller) {
+  // let bot = await controller.spawn(FACEBOOK_PAGE_ID);
+
+  // await bot.startConversationWithUser(FACEBOOK_USER_PSID);
+  // await bot.say('Howdy human!');
   const MY_DIALOG_ID = 'transportation_dialog';
   let convo = new BotkitConversation(MY_DIALOG_ID, controller);
 
-  // send a greeting
-  convo.say('Hola!');
+  controller.hears(['summon'], ['message', 'message_received'], function(
+    bot,
+    message
+  ) {
+    bot.startConversation(message, function(err, convo) {
+      // send a greeting
+      convo.say('Hola!');
 
-  convo.ask(
-    'Where do you want to go?',
-    async (response, convo, bot) => {
-      console.log(`you said you are at ${response}`);
-      // do something
-    },
-    'location'
-  );
+      convo.ask(
+        'Where do you want to go?',
+        async (response, convo, bot) => {
+          console.log(`you said you are at ${response}`);
+          // do something
+        },
+        'location'
+      );
 
-  controller.addDialog(convo);
+      controller.addDialog(convo);
+    });
+  });
 
   /* transportations */
   // TODO: integrate with Google Map to determine best route and provide fixed option of transportation
