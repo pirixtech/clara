@@ -3,35 +3,168 @@ const { BotkitConversation } = require('botkit');
 var destination = 'Toronto, Ontario, Canada';
 var BASE_GOOGLE_SEARCH_URL = 'https://www.google.com/maps/search/?api=1';
 var BASE_GOOGLE_DIR_URL = 'https://www.google.com/maps/dir/?api=1';
+const TRANSPORTATION_DIALOG_ID = 'transportation_dialog';
+const GET_STARTED_DIALOG_ID = 'get_started_dialog';
 
 module.exports = function(controller) {
-  // let bot = await controller.spawn(FACEBOOK_PAGE_ID);
+  function getStartedDialog() {
+    const onboarding = new BotkitConversation(
+      GET_STARTED_DIALOG_ID,
+      controller
+    );
 
-  // await bot.startConversationWithUser(FACEBOOK_USER_PSID);
-  // await bot.say('Howdy human!');
-  const MY_DIALOG_ID = 'transportation_dialog';
-  let convo = new BotkitConversation(MY_DIALOG_ID, controller);
+    onboarding.ask(
+      'What is your name?',
+      async answer => {
+        // do nothing.
+      },
+      'name'
+    );
 
-  controller.hears(['summon'], ['message', 'message_received'], function(
-    bot,
-    message
-  ) {
-    bot.startConversation(message, function(err, convo) {
-      // send a greeting
-      convo.say('Hola!');
-
-      convo.ask(
-        'Where do you want to go?',
-        async (response, convo, bot) => {
-          console.log(`you said you are at ${response}`);
-          // do something
+    // collect a value with conditional actions
+    onboarding.ask(
+      'Do you like tacos?',
+      [
+        {
+          pattern: 'yes',
+          handler: async function(answer, convo, bot) {
+            await convo.gotoThread('likes_tacos');
+          }
         },
-        'location'
+        {
+          pattern: 'no',
+          handler: async function(answer, convo, bot) {
+            await convo.gotoThread('hates_life');
+          }
+        }
+      ],
+      { key: 'tacos' }
+    );
+
+    // define a 'likes_tacos' thread
+    onboarding.addMessage('HOORAY TACOS', 'likes_tacos');
+
+    // define a 'hates_life' thread
+    onboarding.addMessage('TOO BAD!', 'hates_life');
+
+    // handle the end of the conversation
+    onboarding.after(async (results, bot) => {
+      const name = results.name;
+    });
+
+    return onboarding;
+  }
+
+  function transportationDialog(bot, message) {
+    const destination = new BotkitConversation(
+      TRANSPORTATION_DIALOG_ID,
+      controller
+    );
+
+    destination.ask(
+      'Where are you now?',
+      async response => {
+        console.log(`you said you are at ${response}`);
+        // do nothing.
+      },
+      'location'
+    );
+
+    destination.ask(
+      'Where do you want to go?',
+      async response => {
+        console.log(`you said you want to go to ${response}`);
+      },
+      'destination'
+    );
+
+    // handle the end of the conversation
+    destination.after(async (results, bot) => {
+      const location = results.location;
+      const destination = results.destination;
+    });
+
+    return destination;
+  }
+
+  // add the conversation to the dialogset
+  controller.addDialog(getStartedDialog());
+  controller.addDialog(transportationDialog());
+
+  // launch the dialog in response to a message or event
+  controller.hears(
+    ['summon', 'wake up', 'get started', 'go'],
+    ['message'],
+    async (bot, message) => {
+      await bot.reply(
+        message,
+        `I heard you summoned me, what do you want to do? magic word: ${
+          message.text
+        }`
       );
 
-      controller.addDialog(convo);
-    });
-  });
+      if (message.text == 'go') {
+        bot.beginDialog(TRANSPORTATION_DIALOG_ID);
+      } else {
+        bot.beginDialog(GET_STARTED_DIALOG_ID);
+      }
+
+      // separate out into a dialog function
+      // await testDialog(bot, message);
+      // bot.startConversationWithUser(message, function(err, convo) {
+      //   if (!err) {
+      //     convo.say('I do not know your intention yet!');
+      //     convo.ask(
+      //       'What do you want to do?',
+      //       function(response, convo) {
+      //         convo.ask('You want me to call you `' + response.text + '`?', [
+      //           {
+      //             pattern: 'yes',
+      //             callback: function(response, convo) {
+      //               // since no further messages are queued after this,
+      //               // the conversation will end naturally with status == 'completed'
+      //               convo.next();
+      //             }
+      //           },
+      //           {
+      //             pattern: 'no',
+      //             callback: function(response, convo) {
+      //               // stop the conversation. this will cause it to end with status == 'stopped'
+      //               convo.stop();
+      //             }
+      //           },
+      //           {
+      //             default: true,
+      //             callback: function(response, convo) {
+      //               convo.repeat();
+      //               convo.next();
+      //             }
+      //           }
+      //         ]);
+      //         convo.next();
+      //       },
+      //       { key: 'location' }
+      //     ); // store the results in a field called nickname
+      //     convo.on('end', function(convo) {
+      //       if (convo.status == 'completed') {
+      //         bot.reply(message, 'OK! I will update my dossier...');
+      //         // controller.storage.users.get(message.user, function (err, user) {
+      //         //   if (!user) {
+      //         //     user = {
+      //         //       id: message.user,
+      //         //     };
+      //         //   }
+      //         //   user.name = convo.extractResponse('nickname');
+      //         //   controller.storage.users.save(user, function (err, id) {
+      //         //     bot.reply(message, 'Got it. I will call you ' + user.name + ' from now on.');
+      //         //   });
+      //         // });
+      //       }
+      //     });
+      //   }
+      // });
+    }
+  );
 
   /* transportations */
   // TODO: integrate with Google Map to determine best route and provide fixed option of transportation
