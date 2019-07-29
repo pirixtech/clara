@@ -6,17 +6,14 @@ var BASE_GOOGLE_DIR_URL = 'https://www.google.com/maps/dir/?api=1';
 const TRANSPORTATION_DIALOG_ID = 'transportation_dialog';
 
 module.exports = function(controller) {
-  function getDirection(startPoint, destination, travelMode){
-    let encodedOrigin = encodeURIComponent(startPoint);
+  function getDirection(origin, destination, travelMode) {
+    let encodedOrigin = encodeURIComponent(origin);
     let encodedDestination = encodeURIComponent(destination);
     // let travelMode = encodeURIComponent(message.postback.payload);
 
     let googlMapDirectionUrl = `${BASE_GOOGLE_DIR_URL}&origin=${encodedOrigin}&destination=${encodedDestination}&travelmode=${travelMode}`;
-    await bot.reply(
-      message,
-      `To get to ${destination}, follow the direction: ${googlMapDirectionUrl}`
-    );
-    }
+    return googlMapDirectionUrl;
+  }
 
   function transportationDialog(bot, message) {
     const destination = new BotkitConversation(
@@ -46,14 +43,18 @@ module.exports = function(controller) {
         console.log(`you said you want to go by ${response}`);
       },
       'travelMode'
-    )
+    );
 
     // handle the end of the conversation
     destination.after(async (results, bot) => {
-      const startPoint = results.location;
+      const origin = results.location;
       const destination = results.destination;
-      const travelMode = results.travelMode
-      getDirection(startPoint, destination)
+      const travelMode = results.travelMode;
+      directionUrl = getDirection(origin, destination, travelMode);
+      await bot.reply(
+        message,
+        `To get to ${destination}, follow the direction: ${directionUrl}`
+      );
     });
 
     return destination;
