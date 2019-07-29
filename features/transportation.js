@@ -12,6 +12,7 @@ module.exports = function(controller) {
     // let travelMode = encodeURIComponent(message.postback.payload);
 
     let googlMapDirectionUrl = `${BASE_GOOGLE_DIR_URL}&origin=${encodedOrigin}&destination=${encodedDestination}&travelmode=${travelMode}`;
+    console.log(`Direction URL: ${googlMapDirectionUrl}`);
     return googlMapDirectionUrl;
   }
 
@@ -51,8 +52,7 @@ module.exports = function(controller) {
       const destination = results.destination;
       const travelMode = results.travelMode;
       directionUrl = getDirection(origin, destination, travelMode);
-      await bot.reply(
-        message,
+      await bot.say(
         `To get to ${destination}, follow the direction: ${directionUrl}`
       );
     });
