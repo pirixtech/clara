@@ -4,57 +4,8 @@ var destination = 'Toronto, Ontario, Canada';
 var BASE_GOOGLE_SEARCH_URL = 'https://www.google.com/maps/search/?api=1';
 var BASE_GOOGLE_DIR_URL = 'https://www.google.com/maps/dir/?api=1';
 const TRANSPORTATION_DIALOG_ID = 'transportation_dialog';
-const GET_STARTED_DIALOG_ID = 'get_started_dialog';
 
 module.exports = function(controller) {
-  function getStartedDialog() {
-    const onboarding = new BotkitConversation(
-      GET_STARTED_DIALOG_ID,
-      controller
-    );
-
-    onboarding.ask(
-      'What is your name?',
-      async answer => {
-        // do nothing.
-      },
-      'name'
-    );
-
-    // collect a value with conditional actions
-    onboarding.ask(
-      'Do you like tacos?',
-      [
-        {
-          pattern: 'yes',
-          handler: async function(answer, convo, bot) {
-            await convo.gotoThread('likes_tacos');
-          }
-        },
-        {
-          pattern: 'no',
-          handler: async function(answer, convo, bot) {
-            await convo.gotoThread('hates_life');
-          }
-        }
-      ],
-      { key: 'tacos' }
-    );
-
-    // define a 'likes_tacos' thread
-    onboarding.addMessage('HOORAY TACOS', 'likes_tacos');
-
-    // define a 'hates_life' thread
-    onboarding.addMessage('TOO BAD!', 'hates_life');
-
-    // handle the end of the conversation
-    onboarding.after(async (results, bot) => {
-      const name = results.name;
-    });
-
-    return onboarding;
-  }
-
   function transportationDialog(bot, message) {
     const destination = new BotkitConversation(
       TRANSPORTATION_DIALOG_ID,
@@ -88,83 +39,74 @@ module.exports = function(controller) {
   }
 
   // add the conversation to the dialogset
-  controller.addDialog(getStartedDialog());
   controller.addDialog(transportationDialog());
 
   // launch the dialog in response to a message or event
-  controller.hears(
-    ['summon', 'wake up', 'get started', 'go'],
-    ['message'],
-    async (bot, message) => {
-      await bot.reply(
-        message,
-        `I heard you summoned me, what do you want to do? magic word: ${
-          message.text
-        }`
-      );
+  controller.hears(['summon', 'wake up'], ['message'], async (bot, message) => {
+    await bot.reply(
+      message,
+      `I heard you summoned me, what do you want to do? magic word: ${
+        message.text
+      }`
+    );
 
-      if (message.text == 'go') {
-        bot.beginDialog(TRANSPORTATION_DIALOG_ID);
-      } else {
-        bot.beginDialog(GET_STARTED_DIALOG_ID);
-      }
+    bot.beginDialog(TRANSPORTATION_DIALOG_ID);
 
-      // separate out into a dialog function
-      // await testDialog(bot, message);
-      // bot.startConversationWithUser(message, function(err, convo) {
-      //   if (!err) {
-      //     convo.say('I do not know your intention yet!');
-      //     convo.ask(
-      //       'What do you want to do?',
-      //       function(response, convo) {
-      //         convo.ask('You want me to call you `' + response.text + '`?', [
-      //           {
-      //             pattern: 'yes',
-      //             callback: function(response, convo) {
-      //               // since no further messages are queued after this,
-      //               // the conversation will end naturally with status == 'completed'
-      //               convo.next();
-      //             }
-      //           },
-      //           {
-      //             pattern: 'no',
-      //             callback: function(response, convo) {
-      //               // stop the conversation. this will cause it to end with status == 'stopped'
-      //               convo.stop();
-      //             }
-      //           },
-      //           {
-      //             default: true,
-      //             callback: function(response, convo) {
-      //               convo.repeat();
-      //               convo.next();
-      //             }
-      //           }
-      //         ]);
-      //         convo.next();
-      //       },
-      //       { key: 'location' }
-      //     ); // store the results in a field called nickname
-      //     convo.on('end', function(convo) {
-      //       if (convo.status == 'completed') {
-      //         bot.reply(message, 'OK! I will update my dossier...');
-      //         // controller.storage.users.get(message.user, function (err, user) {
-      //         //   if (!user) {
-      //         //     user = {
-      //         //       id: message.user,
-      //         //     };
-      //         //   }
-      //         //   user.name = convo.extractResponse('nickname');
-      //         //   controller.storage.users.save(user, function (err, id) {
-      //         //     bot.reply(message, 'Got it. I will call you ' + user.name + ' from now on.');
-      //         //   });
-      //         // });
-      //       }
-      //     });
-      //   }
-      // });
-    }
-  );
+    // separate out into a dialog function
+    // await testDialog(bot, message);
+    // bot.startConversationWithUser(message, function(err, convo) {
+    //   if (!err) {
+    //     convo.say('I do not know your intention yet!');
+    //     convo.ask(
+    //       'What do you want to do?',
+    //       function(response, convo) {
+    //         convo.ask('You want me to call you `' + response.text + '`?', [
+    //           {
+    //             pattern: 'yes',
+    //             callback: function(response, convo) {
+    //               // since no further messages are queued after this,
+    //               // the conversation will end naturally with status == 'completed'
+    //               convo.next();
+    //             }
+    //           },
+    //           {
+    //             pattern: 'no',
+    //             callback: function(response, convo) {
+    //               // stop the conversation. this will cause it to end with status == 'stopped'
+    //               convo.stop();
+    //             }
+    //           },
+    //           {
+    //             default: true,
+    //             callback: function(response, convo) {
+    //               convo.repeat();
+    //               convo.next();
+    //             }
+    //           }
+    //         ]);
+    //         convo.next();
+    //       },
+    //       { key: 'location' }
+    //     ); // store the results in a field called nickname
+    //     convo.on('end', function(convo) {
+    //       if (convo.status == 'completed') {
+    //         bot.reply(message, 'OK! I will update my dossier...');
+    //         // controller.storage.users.get(message.user, function (err, user) {
+    //         //   if (!user) {
+    //         //     user = {
+    //         //       id: message.user,
+    //         //     };
+    //         //   }
+    //         //   user.name = convo.extractResponse('nickname');
+    //         //   controller.storage.users.save(user, function (err, id) {
+    //         //     bot.reply(message, 'Got it. I will call you ' + user.name + ' from now on.');
+    //         //   });
+    //         // });
+    //       }
+    //     });
+    //   }
+    // });
+  });
 
   /* transportations */
   // TODO: integrate with Google Map to determine best route and provide fixed option of transportation
