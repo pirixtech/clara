@@ -6,6 +6,18 @@ var BASE_GOOGLE_DIR_URL = 'https://www.google.com/maps/dir/?api=1';
 const TRANSPORTATION_DIALOG_ID = 'transportation_dialog';
 
 module.exports = function(controller) {
+  function getDirection(startPoint, destination, travelMode){
+    let encodedOrigin = encodeURIComponent(startPoint);
+    let encodedDestination = encodeURIComponent(destination);
+    // let travelMode = encodeURIComponent(message.postback.payload);
+
+    let googlMapDirectionUrl = `${BASE_GOOGLE_DIR_URL}&origin=${encodedOrigin}&destination=${encodedDestination}&travelmode=${travelMode}`;
+    await bot.reply(
+      message,
+      `To get to ${destination}, follow the direction: ${googlMapDirectionUrl}`
+    );
+    }
+
   function transportationDialog(bot, message) {
     const destination = new BotkitConversation(
       TRANSPORTATION_DIALOG_ID,
@@ -16,7 +28,6 @@ module.exports = function(controller) {
       'Where are you now?',
       async response => {
         console.log(`you said you are at ${response}`);
-        // do nothing.
       },
       'location'
     );
@@ -29,10 +40,20 @@ module.exports = function(controller) {
       'destination'
     );
 
+    destination.ask(
+      'How are you planning to go?',
+      async response => {
+        console.log(`you said you want to go by ${response}`);
+      },
+      'travelMode'
+    )
+
     // handle the end of the conversation
     destination.after(async (results, bot) => {
-      const location = results.location;
+      const startPoint = results.location;
       const destination = results.destination;
+      const travelMode = results.travelMode
+      getDirection(startPoint, destination)
     });
 
     return destination;
