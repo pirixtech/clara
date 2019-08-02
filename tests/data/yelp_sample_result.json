@@ -1,0 +1,18 @@
+{
+  "data": {
+    "business": {
+      "name": "Garaje",
+      "id": "tnhfDv5Il8EaGSXZGiuQGg",
+      "is_claimed": true,
+      "is_closed": false,
+      "url": "https://www.yelp.com/biz/garaje-san-francisco?adjust_creative=TRhVho-afJUR5COVR82Opw&utm_campaign=yelp_api_v3&utm_medium=api_v3_graphql&utm_source=TRhVho-afJUR5COVR82Opw",
+      "phone": "+14156440838",
+      "display_phone": "(415) 644-0838",
+      "review_count": 1503,
+      "rating": 4.5,
+      "photos": [
+        "https://s3-media1.fl.yelpcdn.com/bphoto/B5UcvKFCAMNZ5O8e-bx-pg/o.jpg"
+      ]
+    }
+  }
+}

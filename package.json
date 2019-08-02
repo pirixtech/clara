@@ -10,14 +10,22 @@
   },
   "dependencies": {
     "amadeus": "^3.1.0",
+    "apollo-boost": "^0.4.3",
     "botbuilder-adapter-facebook": "^1.0.4",
     "botbuilder-storage-mongodb": "^0.9.5",
     "botkit": "^4.5.0",
     "botkit-plugin-cms": "^1.0.2",
+    "cross-fetch": "^3.0.4",
     "dotenv": "^8.0.0",
-    "nodemon": "^1.19.1"
+    "graphql": "^14.4.2",
+    "graphql-tag": "^2.10.1",
+    "nodemon": "^1.19.1",
+    "yelp-fusion": "^3.0.0"
   },
   "engines": {
     "node": "12.4.0"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.6.3"
   }
 }
