@@ -1,0 +1,26 @@
+{
+  "channelId": "facebook",
+  "timestamp": "Tue Aug 13 2019 11:54:06 GMT+0000 (Coordinated Universal Time)",
+  "conversation": {
+    "id": "2732435750119444"
+  },
+  "from": {
+    "id": "2732435750119444",
+    "name": "2732435750119444"
+  },
+  "recipient": {
+    "id": "395039924693387",
+    "name": "395039924693387"
+  },
+  "channelData": {
+    "sender": "[object Object]",
+    "recipient": "[object Object]",
+    "timestamp": "1565698023366",
+    "message": "[object Object]",
+    "mid": "3a76ebd3482ad8e94845c6dbdde116de(hashed)",
+    "text": "I'm hungry",
+    "botkitEventType": ""
+  },
+  "type": "message",
+  "text": "I'm hungry"
+}

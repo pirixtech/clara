@@ -98,12 +98,80 @@ module.exports = function(controller) {
   controller.hears(["I'm hungry"], 'message', async (bot, message) => {
     console.log(`Message structure keys: ${Object.keys(message)}`);
     console.log(`Message structure values: ${Object.values(message)}`);
+    // incoming message
     console.log(
       `ingested raw message keys: ${Object.keys(message.incoming_message)}`
     );
     console.log(
       `ingested raw message values: ${Object.values(message.incoming_message)}`
     );
+    // conversation
+    console.log(
+      `ingested raw message conversation keys: ${Object.keys(
+        message.incoming_message.conversation
+      )}`
+    );
+    console.log(
+      `ingested raw message conversation values: ${Object.values(
+        message.incoming_message.conversation
+      )}`
+    );
+    // channelData
+    console.log(
+      `ingested raw message channelData keys: ${Object.keys(
+        message.incoming_message.channelData
+      )}`
+    );
+    console.log(
+      `ingested raw message channelData values: ${Object.values(
+        message.incoming_message.channelData
+      )}`
+    );
+    // from
+    console.log(
+      `ingested raw message from keys: ${Object.keys(
+        message.incoming_message.from
+      )}`
+    );
+    console.log(
+      `ingested raw message from values: ${Object.values(
+        message.incoming_message.from
+      )}`
+    );
+    // recipient
+    console.log(
+      `ingested raw message recipient keys: ${Object.keys(
+        message.incoming_message.recipient
+      )}`
+    );
+    console.log(
+      `ingested raw message recipient values: ${Object.values(
+        message.incoming_message.recipient
+      )}`
+    );
+
+    console.log(
+      `ingested raw message channelData sender keys: ${Object.keys(
+        message.incoming_message.channelData.sender
+      )}`
+    );
+    console.log(
+      `ingested raw message channelData recipient keys: ${Object.keys(
+        message.incoming_message.channelData.recipient
+      )}`
+    );
+
+    console.log(
+      `ingested raw message channelData message keys: ${Object.keys(
+        message.incoming_message.channelData.message
+      )}`
+    );
+    console.log(
+      `ingested raw message channelData message values: ${Object.values(
+        message.incoming_message.channelData.message
+      )}`
+    );
+
     await bot.beginDialog(DIALOG_ID);
   });
 };
