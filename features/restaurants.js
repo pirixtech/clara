@@ -3,12 +3,14 @@ const ApolloBoost = require('apollo-boost');
 const ApolloClient = ApolloBoost.default;
 const gql = ApolloBoost.gql;
 
+const DIALOG_ID = 'restaurant_guide';
+
 require('dotenv').config();
 
 const { BotkitConversation } = require('botkit');
 const YELP_GRAPHQL_URL = 'https://api.yelp.com/v3/graphql';
 const key = process.env.YELP_API_KEY;
-console.log(`key is ${key}`);
+// console.log(`key is ${key}`);
 const client = new ApolloClient({
   uri: YELP_GRAPHQL_URL,
   request: operation => {
@@ -21,7 +23,7 @@ const client = new ApolloClient({
 });
 // Integrate with Yelp GraphQL (Fusion API as a fallback solution)
 
-const GET_RESTAURANT = gql`
+const GET_RESTAURANTS = gql`
   {
     business(id: "garaje-san-francisco") {
       name
@@ -33,12 +35,11 @@ const GET_RESTAURANT = gql`
       display_phone
       review_count
       rating
-      photos
     }
   }
 `;
 
-const GET_RESTAURANT_TEST = gql`
+const GET_RESTAURANTS_TEST = gql`
   {
     business(id: "garaje-san-francisco") {
       name
@@ -59,32 +60,50 @@ function recommend() {
  * retrieve a list of restaurants from Yelp located close to the person's current location
  */
 var getRestaurants = function() {
-  console.log(
-    'This is the recommendation engine, it is still under active developement, please check back later'
-  );
+  console.log('Scanning foodies heaven, standing by ...');
   client
     .query({
-      query: GET_RESTAURANT_TEST
+      query: GET_RESTAURANTS_TEST
     })
     .then(console.log);
+  // .then(payload => {
+  //   console.log(payload);
+  // })
+  // .then(payload => {
+  //   return Promise.resolve(payload);
+  // });
 };
 
 module.exports = function(controller) {
-  /* restarants */
-  controller.hears(['Where to eat'], ['message'], async (bot, message) => {
-    getRestaurants();
-    await bot.reply(message, 'Pai is the best Thai restaurant in Toronto!');
-  });
+  function recommendRestaurantDialog(location) {
+    const restaurantDialog = new BotkitConversation(DIALOG_ID, controller);
 
-  let DIALOG_ID = 'restaurant_guide';
-  let restaurantDialog = new BotkitConversation(DIALOG_ID, controller);
+    restaurantDialog.say(`Scanning restaurants within 5 miles of ${location}`);
+    // TODO: add more dialogue flow
+
+    // handle the end of the conversation
+    restaurantDialog.after(async (results, bot) => {
+      // get restaurant from Yelp
+      // restaurant = getRestaurants().then;
+      await bot.say(`${getRestaurants()} is highly recommended!`);
+    });
+
+    return restaurantDialog;
+  }
+
   // TODO: replace with location field parsed from message
   let location = 'Toronto';
-  restaurantDialog.say('Hola!');
-  restaurantDialog.say('Welcome to ' + location + '!');
-  controller.addDialog(restaurantDialog);
+  controller.addDialog(recommendRestaurantDialog(location));
 
   controller.hears(["I'm hungry"], 'message', async (bot, message) => {
+    console.log(`Message structure keys: ${Object.keys(message)}`);
+    console.log(`Message structure values: ${Object.values(message)}`);
+    console.log(
+      `ingested raw message keys: ${Object.keys(message.incoming_message)}`
+    );
+    console.log(
+      `ingested raw message values: ${Object.values(message.incoming_message)}`
+    );
     await bot.beginDialog(DIALOG_ID);
   });
 };
