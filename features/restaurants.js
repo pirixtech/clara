@@ -4,6 +4,7 @@ const ApolloClient = ApolloBoost.default;
 const gql = ApolloBoost.gql;
 
 const DIALOG_ID = 'restaurant_guide';
+var RESTAURANT_HEAVEN = 'Pai';
 
 require('dotenv').config();
 
@@ -59,20 +60,32 @@ function recommend() {
 /**
  * retrieve a list of restaurants from Yelp located close to the person's current location
  */
-var getRestaurants = function() {
+async function getRestaurants() {
   console.log('Scanning foodies heaven, standing by ...');
-  client
+  RESTAURANT_HEAVEN = await client
     .query({
       query: GET_RESTAURANTS_TEST
     })
-    .then(console.log);
-  // .then(payload => {
-  //   console.log(payload);
+    .then(result => {
+      console.log(result);
+      return result.data.business.name;
+    })
+    .catch(error => {
+      console.log(`ERROR: ${error}`);
+    });
+  // .then(console.log);
+  // .then(result => {
+  //   console.log(result);
+  //   return result;
   // })
+  // .catch(error => {
+  //   console.log(error);
+  // });
   // .then(payload => {
   //   return Promise.resolve(payload);
   // });
-};
+  // return RESTAURANT_HEAVEN;
+}
 
 module.exports = function(controller) {
   function recommendRestaurantDialog(location) {
@@ -82,10 +95,28 @@ module.exports = function(controller) {
     // TODO: add more dialogue flow
 
     // handle the end of the conversation
+    // restaurant = getRestaurants().then(result => {
+    //   return result;
+    // });
+
     restaurantDialog.after(async (results, bot) => {
       // get restaurant from Yelp
-      // restaurant = getRestaurants().then;
-      await bot.say(`${getRestaurants()} is highly recommended!`);
+      await getRestaurants();
+      console.log(
+        `RESTAURANT_HEAVEN variable key is ${Object.keys(RESTAURANT_HEAVEN)}`
+      );
+      console.log(
+        `RESTAURANT_HEAVEN variable values is ${Object.values(
+          RESTAURANT_HEAVEN
+        )}`
+      );
+      await bot.say(`${RESTAURANT_HEAVEN} is highly recommended!`);
+      // getRestaurants().then(async result => {
+      //   console.log(result);
+      //   restaurant = Promise.resolve(result);
+      //   console.log('Restaurant is ' + restaurant);
+      //   await bot.say(`${result} is highly recommended!`);
+      // });
     });
 
     return restaurantDialog;
