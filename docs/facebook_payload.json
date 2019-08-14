@@ -13,10 +13,17 @@
     "name": "395039924693387"
   },
   "channelData": {
-    "sender": "[object Object]",
-    "recipient": "[object Object]",
+    "sender": {
+      "id": "2732435750119444"
+    },
+    "recipient": {
+      "id": "395039924693387"
+    },
     "timestamp": "1565698023366",
-    "message": "[object Object]",
+    "message": {
+      "mid": "3a76ebd3482ad8e94845c6dbdde116de(hashed)",
+      "text": "I'm hungry"
+    },
     "mid": "3a76ebd3482ad8e94845c6dbdde116de(hashed)",
     "text": "I'm hungry",
     "botkitEventType": ""
