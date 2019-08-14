@@ -73,18 +73,6 @@ async function getRestaurants() {
     .catch(error => {
       console.log(`ERROR: ${error}`);
     });
-  // .then(console.log);
-  // .then(result => {
-  //   console.log(result);
-  //   return result;
-  // })
-  // .catch(error => {
-  //   console.log(error);
-  // });
-  // .then(payload => {
-  //   return Promise.resolve(payload);
-  // });
-  // return RESTAURANT_HEAVEN;
 }
 
 module.exports = function(controller) {
@@ -94,29 +82,10 @@ module.exports = function(controller) {
     restaurantDialog.say(`Scanning restaurants within 5 miles of ${location}`);
     // TODO: add more dialogue flow
 
-    // handle the end of the conversation
-    // restaurant = getRestaurants().then(result => {
-    //   return result;
-    // });
-
     restaurantDialog.after(async (results, bot) => {
       // get restaurant from Yelp
       await getRestaurants();
-      console.log(
-        `RESTAURANT_HEAVEN variable key is ${Object.keys(RESTAURANT_HEAVEN)}`
-      );
-      console.log(
-        `RESTAURANT_HEAVEN variable values is ${Object.values(
-          RESTAURANT_HEAVEN
-        )}`
-      );
       await bot.say(`${RESTAURANT_HEAVEN} is highly recommended!`);
-      // getRestaurants().then(async result => {
-      //   console.log(result);
-      //   restaurant = Promise.resolve(result);
-      //   console.log('Restaurant is ' + restaurant);
-      //   await bot.say(`${result} is highly recommended!`);
-      // });
     });
 
     return restaurantDialog;
