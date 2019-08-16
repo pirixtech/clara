@@ -60,15 +60,6 @@ async function constructGraphqlQuery(location, foodType) {
       }
     }
   }`;
-  // query = `
-  // {
-  //   search(term: "burrito", location: "san francisco") {
-  //     total
-  //     business {
-  //       name
-  //     }
-  //   }
-  // }`;
   console.log('query is ' + query);
   return query;
 }
@@ -94,12 +85,22 @@ async function getRestaurants(myQuery) {
     })
     .then(result => {
       console.log(result);
-      // businessNames = [];
-      // result.data.search.business.foreach(function(element) {
-      //   businessNames.push(element.name);
-      // });
-      // return businessNames;
-      return result;
+      businessNames = [];
+      businesses = result.data.search.business;
+      debug_obj = JSON.stringify(businesses);
+      console.log(`businesses = ${debug_obj}`);
+      businesses.forEach(element => {
+        businessNames.push(element.name);
+        name = JSON.stringify(element.name);
+        console.log(`business name is ${name}`);
+      });
+
+      console.log(`businessNames = ${businessNames}`);
+      for (const val of businesses) {
+        console.log('testing: ' + val);
+      }
+
+      return businessNames;
     })
     .catch(error => {
       console.log(`ERROR: ${error}`);
@@ -136,9 +137,9 @@ module.exports = function(controller) {
     restaurantDialog.after(async (results, bot) => {
       // get restaurant from Yelp
       query = await constructGraphqlQuery(results.location, results.foodType);
-      await getRestaurants(query);
+      restaurants = await getRestaurants(query);
       await bot.say(
-        `${RESTAURANT_HEAVEN} is highly recommended near ${results.location}!`
+        `${restaurants} are highly recommended near ${results.location}!`
       );
     });
 
