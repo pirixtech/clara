@@ -96,10 +96,6 @@ async function getRestaurants(myQuery) {
       });
 
       console.log(`businessNames = ${businessNames}`);
-      for (const val of businesses) {
-        console.log('testing: ' + val);
-      }
-
       return businessNames;
     })
     .catch(error => {

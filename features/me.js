@@ -1,6 +1,6 @@
 var fs = require('fs');
 var git = require('git-last-commit');
-const release = '0.1.15';
+const release = '0.2.0';
 
 module.exports = function(controller) {
   /* bot app version */
