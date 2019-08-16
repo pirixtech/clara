@@ -4,7 +4,7 @@ const release = '0.1.15';
 
 module.exports = function(controller) {
   /* bot app version */
-  async function commit() {
+  function commit() {
     git.getLastCommit(function(err, commit) {
       // read commit object properties
       console.log(commit);
@@ -16,7 +16,13 @@ module.exports = function(controller) {
     ['Who are you', 'Tell me about yourself'],
     'message',
     async (bot, message) => {
-      let commit = await commit();
+      git.getLastCommit(function(err, commit) {
+        // read commit object properties
+        console.log(commit);
+        return commit;
+      });
+      commit = '12345';
+      // let commit = commit();
       let age = release + '-' + commit;
 
       await bot.reply(message, "I'm the " + String(age) + ' impossible girl');
