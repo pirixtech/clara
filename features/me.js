@@ -1,17 +1,25 @@
 var fs = require('fs');
+var git = require('git-last-commit');
+const release = '0.1.15';
 
 module.exports = function(controller) {
   /* bot app version */
+  async function commit() {
+    git.getLastCommit(function(err, commit) {
+      // read commit object properties
+      console.log(commit);
+      return commit;
+    });
+  }
+
   controller.hears(
     ['Who are you', 'Tell me about yourself'],
     'message',
     async (bot, message) => {
-      let incarnation = '0.1.15';
-      // let incarnation = version();
-      await bot.reply(
-        message,
-        "I'm the " + String(incarnation) + ' impossible girl'
-      );
+      let commit = await commit();
+      let age = release + '-' + commit;
+
+      await bot.reply(message, "I'm the " + String(age) + ' impossible girl');
     }
   );
 
