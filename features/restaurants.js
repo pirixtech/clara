@@ -42,34 +42,33 @@ const GET_RESTAURANTS = gql`
 
 const GET_RESTAURANTS_TEST = gql`
   {
-    search(term: "burrito", location: "san francisco", limit: 5) {
+    search(term: "burrito", location: "san francisco") {
       total
       business {
         name
-        url
       }
     }
   }
 `;
 
 async function constructGraphqlQuery(location, foodType) {
-  query = `{
-    search(term: "${foodType}", location: "${location}", limit: 5) {
-      total
-      business {
-        name
-      }
-    }
-  }`;
-  // query = `
-  // {
-  //   search(term: "burrito", location: "san francisco") {
+  // query = `{
+  //   search(term: "${foodType}", location: "${location}", limit: 5) {
   //     total
   //     business {
   //       name
   //     }
   //   }
   // }`;
+  query = `
+  {
+    search(term: "burrito", location: "san francisco") {
+      total
+      business {
+        name
+      }
+    }
+  }`;
   console.log('query is ' + 'gql' + query);
   return 'gql' + '`' + query + '`';
 }
@@ -137,7 +136,7 @@ module.exports = function(controller) {
     restaurantDialog.after(async (results, bot) => {
       // get restaurant from Yelp
       query = await constructGraphqlQuery(results.location, results.foodType);
-      await getRestaurants(query);
+      await getRestaurants(GET_RESTAURANTS_TEST);
       await bot.say(
         `${RESTAURANT_HEAVEN} is highly recommended near ${results.location}!`
       );
