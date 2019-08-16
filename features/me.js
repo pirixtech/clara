@@ -6,7 +6,7 @@ module.exports = function(controller) {
     ['Who are you', 'Tell me about yourself'],
     'message',
     async (bot, message) => {
-      let incarnation = '0.1.14';
+      let incarnation = '0.1.15';
       // let incarnation = version();
       await bot.reply(
         message,
