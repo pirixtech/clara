@@ -1,14 +1,19 @@
 var fs = require('fs');
-var git = require('git-last-commit');
+// var git = require('git-last-commit');
+var git = require('git-rev-sync');
+
 const release = '0.2.0';
 
 module.exports = function(controller) {
   /* bot app version */
-  function commit() {
-    git.getLastCommit(function(err, commit) {
-      // read commit object properties
-      console.log(commit);
-      return commit;
+  async function commit() {
+    return new Promise((resolve, reject) => {
+      git.getLastCommit((err, commit) => {
+        if (err) return reject(err);
+        // read commit object properties
+        console.log(commit);
+        return resolve(commit);
+      });
     });
   }
 
@@ -16,14 +21,16 @@ module.exports = function(controller) {
     ['Who are you', 'Tell me about yourself'],
     'message',
     async (bot, message) => {
-      git.getLastCommit(function(err, commit) {
-        // read commit object properties
-        console.log(commit);
-        return commit;
-      });
-      commit = '12345';
-      // let commit = commit();
-      let age = release + '-' + commit;
+      console.log(git.short());
+
+      // git.getLastCommit(function(err, commit) {
+      //   // read commit object properties
+      //   console.log('------- commit is: ' + commit);
+      //   return commit;
+      // });
+      // commit = '12345';
+      // let commit = await commit();
+      let age = release;
 
       await bot.reply(message, "I'm the " + String(age) + ' impossible girl');
     }
