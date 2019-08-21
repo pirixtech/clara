@@ -105,7 +105,8 @@ async function getRestaurants(myQuery) {
   return heaven;
 }
 
-function createRestaurantQuickReply(restaurantList) {
+// TODO: modualize quick reply payload construct
+async function createRestaurantQuickReply(restaurantList) {
   return (quickReply = {
     text: `Here's the top ${restaurantList.length} restaurant(s) found for you`,
     quick_replies: [
@@ -167,10 +168,8 @@ module.exports = function(controller) {
       // get restaurant from Yelp
       query = await constructGraphqlQuery(results.location, results.foodType);
       restaurants = await getRestaurants(query);
-      QUICKREPLY = createRestaurantQuickReply(restaurants);
-      await bot.say(
-        `${restaurants} are highly recommended near ${results.location}!`
-      );
+      QUICKREPLY = await createRestaurantQuickReply(restaurants);
+      await bot.say(QUICKREPLY);
     });
 
     return restaurantDialog;
@@ -182,6 +181,6 @@ module.exports = function(controller) {
 
   controller.hears(["I'm hungry"], 'message', async (bot, message) => {
     await bot.beginDialog(DIALOG_ID);
-    await bot.reply(message, QUICKREPLY);
+    // await bot.reply(message, QUICKREPLY);
   });
 };

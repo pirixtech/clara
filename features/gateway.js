@@ -54,7 +54,52 @@ module.exports = function(controller) {
   // add the conversation to the dialogset
   controller.addDialog(getStartedDialog());
 
-  controller.hears(['get started'], ['message'], async (bot, message) => {
+  controller.hears(['Gateway'], ['message'], async (bot, message) => {
     bot.beginDialog(GET_STARTED_DIALOG_ID);
   });
+
+  controller.hears(
+    [/^Help$/, 'Get Started'],
+    'direct_message,direct_mention,message',
+    async function(bot, message) {
+      let restaurants = 'restarant experience';
+      let shopping = 'shopping experience';
+      let transportations = 'go to where you want to go';
+      let locations = 'places of interest experience';
+      let secrets = 'unique secret experience, unlock me';
+
+      quickReply = {
+        text: `Use your imagination, you can go to all the time and spaces, what would you do?`,
+        quick_replies: [
+          {
+            content_type: 'text',
+            title: `I'm Hungry!`,
+            payload: 'Foodie'
+          },
+          {
+            content_type: 'text',
+            title: `How do I get to ... ?`,
+            payload: 'Transportation'
+          },
+          {
+            content_type: 'text',
+            title: `Experience`,
+            payload: 'Adventure'
+          },
+          {
+            content_type: 'text',
+            title: `I'm feeling lucky`,
+            payload: 'Feeling Lucky'
+          },
+          {
+            content_type: 'text',
+            title: `Surprise me`,
+            payload: 'Surprise me'
+          }
+        ]
+      };
+
+      await bot.reply(message, quickReply);
+    }
+  );
 };
