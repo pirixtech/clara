@@ -4,7 +4,7 @@ const ApolloClient = ApolloBoost.default;
 const gql = ApolloBoost.gql;
 
 const DIALOG_ID = 'restaurant_guide';
-var RESTAURANT_HEAVEN = 'Pai';
+var QUICKREPLY;
 
 require('dotenv').config();
 
@@ -105,6 +105,39 @@ async function getRestaurants(myQuery) {
   return heaven;
 }
 
+function createRestaurantQuickReply(restaurantList) {
+  return (quickReply = {
+    text: `Here's the top ${restaurantList.length} restaurant(s) found for you`,
+    quick_replies: [
+      {
+        content_type: 'text',
+        title: `${restaurantList[0]}`,
+        payload: 'List_0'
+      },
+      {
+        content_type: 'text',
+        title: `${restaurantList[1]}`,
+        payload: 'List_1'
+      },
+      {
+        content_type: 'text',
+        title: `${restaurantList[2]}`,
+        payload: 'List_2'
+      },
+      {
+        content_type: 'text',
+        title: `${restaurantList[3]}`,
+        payload: 'List_3'
+      },
+      {
+        content_type: 'text',
+        title: `${restaurantList[4]}`,
+        payload: 'List_4'
+      }
+    ]
+  });
+}
+
 module.exports = function(controller) {
   function recommendRestaurantDialog() {
     const restaurantDialog = new BotkitConversation(DIALOG_ID, controller);
@@ -134,6 +167,7 @@ module.exports = function(controller) {
       // get restaurant from Yelp
       query = await constructGraphqlQuery(results.location, results.foodType);
       restaurants = await getRestaurants(query);
+      QUICKREPLY = createRestaurantQuickReply(restaurants);
       await bot.say(
         `${restaurants} are highly recommended near ${results.location}!`
       );
@@ -148,5 +182,6 @@ module.exports = function(controller) {
 
   controller.hears(["I'm hungry"], 'message', async (bot, message) => {
     await bot.beginDialog(DIALOG_ID);
+    await bot.reply(message, QUICKREPLY);
   });
 };

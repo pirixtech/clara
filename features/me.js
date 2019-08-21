@@ -2,7 +2,7 @@ var fs = require('fs');
 // var git = require('git-last-commit');
 var git = require('git-rev-sync');
 
-const release = '0.2.0';
+const release = '0.2.1';
 
 module.exports = function(controller) {
   /* bot app version */
@@ -21,7 +21,7 @@ module.exports = function(controller) {
     ['Who are you', 'Tell me about yourself'],
     'message',
     async (bot, message) => {
-      console.log(git.short());
+      // console.log(git.short());
 
       // git.getLastCommit(function(err, commit) {
       //   // read commit object properties
