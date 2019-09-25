@@ -19,7 +19,7 @@
     "dotenv": "^8.1.0",
     "git-last-commit": "^1.0.0",
     "git-rev-sync": "^1.12.0",
-    "graphql": "^14.5.0",
+    "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
     "nodemon": "^1.19.1",
     "yelp-fusion": "^3.0.0"
