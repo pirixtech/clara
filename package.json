@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "amadeus": "^3.3.0",
-    "apollo-boost": "^0.4.7",
+    "apollo-boost": "^0.4.9",
     "botbuilder-adapter-facebook": "^1.0.8",
     "botbuilder-storage-mongodb": "^0.9.5",
     "botkit": "^4.6.2",
