@@ -13,7 +13,7 @@
     "apollo-boost": "^0.4.9",
     "botbuilder-adapter-facebook": "^1.0.8",
     "botbuilder-storage-mongodb": "^0.9.5",
-    "botkit": "^4.6.2",
+    "botkit": "^4.9.0",
     "botkit-plugin-cms": "^1.0.3",
     "cross-fetch": "^3.0.4",
     "dotenv": "^8.2.0",
