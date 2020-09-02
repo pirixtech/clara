@@ -18,7 +18,7 @@
     "cross-fetch": "^3.0.5",
     "dotenv": "^8.2.0",
     "git-last-commit": "^1.0.0",
-    "git-rev-sync": "^2.0.0",
+    "git-rev-sync": "^3.0.1",
     "graphql": "^14.7.0",
     "graphql-tag": "^2.11.0",
     "nodemon": "^2.0.4",
