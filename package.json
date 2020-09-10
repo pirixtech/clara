@@ -12,7 +12,7 @@
     "amadeus": "^5.2.0",
     "apollo-boost": "^0.4.9",
     "botbuilder-adapter-facebook": "^1.0.11",
-    "botbuilder-storage-mongodb": "^0.9.5",
+    "botbuilder-storage-mongodb": "^1.0.5",
     "botkit": "^4.10.0",
     "botkit-plugin-cms": "^1.0.3",
     "cross-fetch": "^3.0.5",
