@@ -28,6 +28,6 @@
     "node": "12.4.0"
   },
   "devDependencies": {
-    "jsdoc": "^3.6.5"
+    "jsdoc": "^3.6.6"
   }
 }
