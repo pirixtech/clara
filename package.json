@@ -20,7 +20,7 @@
     "git-last-commit": "^1.0.0",
     "git-rev-sync": "^3.0.1",
     "graphql": "^15.5.0",
-    "graphql-tag": "^2.11.0",
+    "graphql-tag": "^2.12.5",
     "nodemon": "^2.0.7",
     "yelp-fusion": "^3.0.0"
   },
