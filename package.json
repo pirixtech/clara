@@ -21,7 +21,7 @@
     "git-rev-sync": "^3.0.1",
     "graphql": "^15.5.0",
     "graphql-tag": "^2.11.0",
-    "nodemon": "^2.0.7",
+    "nodemon": "^2.0.9",
     "yelp-fusion": "^3.0.0"
   },
   "engines": {
